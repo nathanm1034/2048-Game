@@ -1,9 +1,9 @@
 import Cell from "./cell.js";
+import { cells } from "./cell.js";
 
 class Grid {
     gameContainer = document.getElementById("game-container");
     gameBoard = document.getElementById("game-board");
-    cells = [];
     GRID_SIZE;
     CELL_SIZE;
     CELL_GAP;
@@ -24,14 +24,13 @@ class Grid {
             cellElement.classList.add("cell");
 
             const cell = new Cell(cellElement, i % this.GRID_SIZE, Math.floor(i / this.GRID_SIZE));
-            this.cells.push(cell)
+            cells.push(cell);
             this.gameBoard.append(cellElement);
         }
-        // console.log(this.cells);
     }
 
     get emptyCells() {
-        return this.cells.filter((cell) => cell.isEmpty);
+        return cells.filter((cell) => cell.isEmpty);
     }
 
     randomEmptyCell() {

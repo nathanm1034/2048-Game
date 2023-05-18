@@ -1,3 +1,5 @@
+export let cells = []
+
 class Cell {
     cell;
     x;
@@ -8,6 +10,10 @@ class Cell {
         this.cell = cell;
         this.x = x;
         this.y = y;
+    }
+
+    set isEmptyCell(value) {
+        this.isEmpty = value;
     }
 }
 
