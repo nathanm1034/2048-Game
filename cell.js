@@ -1,4 +1,4 @@
-export let cells = []
+export let CELLS = []
 
 class Cell {
     cell;

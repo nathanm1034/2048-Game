@@ -1,7 +1,9 @@
-import Cell from "./cell.js";
-import { cells } from "./cell.js";
+// import Cell from "./cell.js";
+import { CELLS } from "./cell.js";
 
-const tiles = document.getElementById("tiles");
+export let TILES = []
+
+const tilesElement = document.getElementById("tiles");
 
 class Tile {
     tileElement;
@@ -19,13 +21,27 @@ class Tile {
         this.tileElement.style.setProperty("--x", this.x);
         this.tileElement.style.setProperty("--y", this.y);
         this.tileElement.classList.add("tile");
-        tiles.append(this.tileElement);
+        tilesElement.append(this.tileElement);
         this.findMatchingCell();
     }
 
     findMatchingCell() {
-        this.matchingCell = cells.find((cell) => cell.x === this.x && cell.y === this.y);
+        this.matchingCell = CELLS.find((cell) => cell.x === this.x && cell.y === this.y);
         this.matchingCell.isEmptyCell = false;
+    }
+
+    set xValue(value) {
+        this.matchingCell.isEmptyCell = true;
+        this.x = value;
+        this.tileElement.style.setProperty("--x", this.x);
+        this.findMatchingCell();
+    }
+
+    set yValue(value) {
+        this.matchingCell.isEmptyCell = true;
+        this.y = value;
+        this.tileElement.style.setProperty("--y", this.y);
+        this.findMatchingCell();
     }
 }
 
