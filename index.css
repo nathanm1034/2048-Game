@@ -12,14 +12,10 @@ body {
 }
 
 #game-container{
-    --grid-size: 2;
-    --cell-size: 20vmin;
-    --cell-gap: 2vmin;
-
     position: relative;
 }
 
-.game-board {
+#game-board {
     display: grid;
     grid-template-columns: repeat(var(--grid-size), var(--cell-size));
     grid-template-rows: repeat(var(--grid-size), var(--cell-size));
@@ -27,7 +23,6 @@ body {
     gap: var(--cell-gap);
     border-radius: 2.5vmin;
     padding: var(--cell-gap);
-    position: relative;
     z-index: 1;
 }
 
@@ -50,7 +45,6 @@ body {
     align-items: center;
     width: var(--cell-size);
     height: var(--cell-size);
-    background-color: red;
     border-radius: 1.5vmin;
     z-index: 2;
 
