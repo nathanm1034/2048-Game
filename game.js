@@ -133,17 +133,10 @@ function generateTile() {
 const game = new Grid(GRID_SIZE, CELL_SIZE, CELL_GAP);
 
 EMPTY_CELL = game.randomEmptyCell();
-const initialTile = new Tile(1, 1);
-TILES.push(initialTile);
-// EMPTY_CELL = game.randomEmptyCell();
-// const secondTile = new Tile(1, 3);
-// TILES.push(secondTile);
-// EMPTY_CELL = game.randomEmptyCell();
-// let tempTile = new Tile(1, 0);
-// TILES.push(tempTile);
-// EMPTY_CELL = game.randomEmptyCell();
-// tempTile = new Tile(1, 2);
-// TILES.push(tempTile);
+const firstTile = new Tile(EMPTY_CELL.x, EMPTY_CELL.y);
+TILES.push(firstTile);
+EMPTY_CELL = game.randomEmptyCell();
+const secondTile = new Tile(EMPTY_CELL.x, EMPTY_CELL.y);
+TILES.push(secondTile);
 
-console.log(TILES);
 setupInput();
