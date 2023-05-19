@@ -1,7 +1,7 @@
 import Grid from "./grid.js";
 import Tile from "./tile.js";
 
-import { CELLS } from "./cell.js";
+// import { CELLS } from "./cell.js";
 import { TILES } from "./tile.js";
 
 let GRID_SIZE = 4;
@@ -36,6 +36,7 @@ function handleInput(e) {
             return;
     }
 
+    // generateTile();
     setupInput();
 }
 
@@ -43,9 +44,20 @@ function moveUp() {
     const columns = game.findTilesByColumn();
     Object.entries(columns).forEach(([column, tiles]) => {
         tiles.sort((a, b) => a.y - b.y);
-        tiles.forEach((tile, index) => {
-            tile.yValue = index;
-        });
+        for (let i = 0; i < tiles.length; i++) {
+            let currentTile = tiles[i];
+            let nextTile = tiles[i + 1];
+            if (currentTile.value === nextTile?.value) {
+                currentTile.updateValue();
+                tiles.splice(i + 1, 1);
+
+                const nextTileIndex = TILES.indexOf(nextTile);
+                TILES.splice(nextTileIndex, 1);
+                nextTile.destructor();
+                nextTile = null;
+            }
+            currentTile.yValue = i;
+        }
     });
 }
 
@@ -53,9 +65,20 @@ function moveDown() {
     const columns = game.findTilesByColumn();
     Object.entries(columns).forEach(([column, tiles]) => {
         tiles.sort((a, b) => b.y - a.y);
-        tiles.forEach((tile, index) => {
-            tile.yValue = GRID_SIZE - index - 1;
-        });
+        for (let i = 0; i < tiles.length; i++) {
+            let currentTile = tiles[i];
+            let nextTile = tiles[i + 1];
+            if (currentTile.value === nextTile?.value) {
+                currentTile.updateValue();
+                tiles.splice(i + 1, 1);
+
+                const nextTileIndex = TILES.indexOf(nextTile);
+                TILES.splice(nextTileIndex, 1);
+                nextTile.destructor();
+                nextTile = null;
+            }
+            currentTile.yValue = GRID_SIZE - i - 1;
+        }
     });
 }
 
@@ -63,9 +86,20 @@ function moveLeft() {
     const rows = game.findTilesByRow();
     Object.entries(rows).forEach(([row, tiles]) => {
         tiles.sort((a, b) => a.x - b.x);
-        tiles.forEach((tile, index) => {
-            tile.xValue = index;
-        });
+        for (let i = 0; i < tiles.length; i++) {
+            let currentTile = tiles[i];
+            let nextTile = tiles[i + 1];
+            if (currentTile.value === nextTile?.value) {
+                currentTile.updateValue();
+                tiles.splice(i + 1, 1);
+
+                const nextTileIndex = TILES.indexOf(nextTile);
+                TILES.splice(nextTileIndex, 1);
+                nextTile.destructor();
+                nextTile = null;
+            }
+            currentTile.xValue = i;
+        }
     });
 }
 
@@ -73,9 +107,20 @@ function moveRight() {
     const rows = game.findTilesByRow();
     Object.entries(rows).forEach(([row, tiles]) => {
         tiles.sort((a, b) => b.x - a.x);
-        tiles.forEach((tile, index) => {
-            tile.xValue = GRID_SIZE - index - 1;
-        });
+        for (let i = 0; i < tiles.length; i++) {
+            let currentTile = tiles[i];
+            let nextTile = tiles[i + 1];
+            if (currentTile.value === nextTile?.value) {
+                currentTile.updateValue();
+                tiles.splice(i + 1, 1);
+
+                const nextTileIndex = TILES.indexOf(nextTile);
+                TILES.splice(nextTileIndex, 1);
+                nextTile.destructor();
+                nextTile = null;
+            }
+            currentTile.xValue = GRID_SIZE - i - 1;
+        }
     });
 }
 
@@ -88,9 +133,17 @@ function generateTile() {
 const game = new Grid(GRID_SIZE, CELL_SIZE, CELL_GAP);
 
 EMPTY_CELL = game.randomEmptyCell();
-const initialTile = new Tile(EMPTY_CELL.x, EMPTY_CELL.y);
+const initialTile = new Tile(1, 1);
 TILES.push(initialTile);
 // EMPTY_CELL = game.randomEmptyCell();
-// const secondTile = new Tile(EMPTY_CELL.x, EMPTY_CELL.y);
+// const secondTile = new Tile(1, 3);
+// TILES.push(secondTile);
+// EMPTY_CELL = game.randomEmptyCell();
+// let tempTile = new Tile(1, 0);
+// TILES.push(tempTile);
+// EMPTY_CELL = game.randomEmptyCell();
+// tempTile = new Tile(1, 2);
+// TILES.push(tempTile);
 
+console.log(TILES);
 setupInput();

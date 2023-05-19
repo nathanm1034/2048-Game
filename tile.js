@@ -30,6 +30,11 @@ class Tile {
         this.matchingCell.isEmptyCell = false;
     }
 
+    updateValue() {
+        this.value *= 2;
+        this.tileElement.innerHTML = `${this.value}`;
+    }
+
     set xValue(value) {
         this.matchingCell.isEmptyCell = true;
         this.x = value;
@@ -42,6 +47,11 @@ class Tile {
         this.y = value;
         this.tileElement.style.setProperty("--y", this.y);
         this.findMatchingCell();
+    }
+
+    destructor() {
+        this.tileElement.remove();
+        this.matchingCell.isEmptyCell = true;
     }
 }
 
