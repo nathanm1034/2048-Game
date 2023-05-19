@@ -1,7 +1,6 @@
 import Grid from "./grid.js";
 import Tile from "./tile.js";
 
-// import { CELLS } from "./cell.js";
 import { TILES } from "./tile.js";
 
 let GRID_SIZE = 4;
@@ -9,12 +8,18 @@ let CELL_SIZE = 20;
 let CELL_GAP = 2;
 
 let EMPTY_CELL;
+let ACTION = false;
+
+let previousX;
+let previousY;
 
 function setupInput() {
     window.addEventListener("keydown", handleInput, { once: true })
 }
 
 function handleInput(e) {
+    ACTION = false;
+
     switch (e.key) {
         case "ArrowUp":
             moveUp();
@@ -28,16 +33,24 @@ function handleInput(e) {
         case "ArrowRight":
             moveRight();
             break;
-        case "Enter":
-            generateTile();
-            break;
         default:
             setupInput();
             return;
     }
 
-    // generateTile();
-    setupInput();
+    if (ACTION) generateTile();
+
+    if (game.emptyCells.length !== 0) {
+        setupInput();
+    } else {
+        console.log("cells full")
+        if (movesAvailable()) {
+            setupInput();
+        }
+        else {
+            console.log("Game Over");
+        }
+    }
 }
 
 function moveUp() {
@@ -48,6 +61,7 @@ function moveUp() {
             let currentTile = tiles[i];
             let nextTile = tiles[i + 1];
             if (currentTile.value === nextTile?.value) {
+                ACTION = true;
                 currentTile.updateValue();
                 tiles.splice(i + 1, 1);
 
@@ -56,7 +70,11 @@ function moveUp() {
                 nextTile.destructor();
                 nextTile = null;
             }
+            previousY = currentTile.y;
             currentTile.yValue = i;
+            if (previousY !== currentTile.y) {
+                ACTION = true;
+            }
         }
     });
 }
@@ -69,6 +87,7 @@ function moveDown() {
             let currentTile = tiles[i];
             let nextTile = tiles[i + 1];
             if (currentTile.value === nextTile?.value) {
+                ACTION = true;
                 currentTile.updateValue();
                 tiles.splice(i + 1, 1);
 
@@ -77,7 +96,11 @@ function moveDown() {
                 nextTile.destructor();
                 nextTile = null;
             }
+            previousY = currentTile.y;
             currentTile.yValue = GRID_SIZE - i - 1;
+            if (previousY !== currentTile.y) {
+                ACTION = true;
+            }
         }
     });
 }
@@ -90,6 +113,7 @@ function moveLeft() {
             let currentTile = tiles[i];
             let nextTile = tiles[i + 1];
             if (currentTile.value === nextTile?.value) {
+                ACTION = true;
                 currentTile.updateValue();
                 tiles.splice(i + 1, 1);
 
@@ -98,7 +122,11 @@ function moveLeft() {
                 nextTile.destructor();
                 nextTile = null;
             }
+            previousX = currentTile.x
             currentTile.xValue = i;
+            if (previousX !== currentTile.x) {
+                ACTION = true;
+            }
         }
     });
 }
@@ -111,6 +139,7 @@ function moveRight() {
             let currentTile = tiles[i];
             let nextTile = tiles[i + 1];
             if (currentTile.value === nextTile?.value) {
+                ACTION = true;
                 currentTile.updateValue();
                 tiles.splice(i + 1, 1);
 
@@ -119,7 +148,11 @@ function moveRight() {
                 nextTile.destructor();
                 nextTile = null;
             }
+            previousX = currentTile.x
             currentTile.xValue = GRID_SIZE - i - 1;
+            if (previousX !== currentTile.x) {
+                ACTION = true;
+            }
         }
     });
 }
@@ -128,6 +161,27 @@ function generateTile() {
     EMPTY_CELL = game.randomEmptyCell();
     const newTile = new Tile(EMPTY_CELL.x, EMPTY_CELL.y);
     TILES.push(newTile);
+}
+
+function movesAvailable() {
+    for (let i = 0; i < TILES.length; i++) {
+        const tile = TILES[i];
+        if (tile.x > 0 && TILES.some(t => t.x === tile.x - 1 && t.y === tile.y && t.value === tile.value)) {
+            return true;
+        }
+        if (tile.x < GRID_SIZE - 1 && TILES.some(t => t.x === tile.x + 1 && t.y === tile.y && t.value === tile.value)) {
+            return true;
+        }
+
+        if (tile.y > 0 && TILES.some(t => t.x === tile.x && t.y === tile.y - 1 && t.value === tile.value)) {
+            return true;
+        }
+        if (tile.y < GRID_SIZE - 1 && TILES.some(t => t.x === tile.x && t.y === tile.y + 1 && t.value === tile.value)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 const game = new Grid(GRID_SIZE, CELL_SIZE, CELL_GAP);
