@@ -34,6 +34,10 @@ class Tile {
         this.tileElement.innerHTML = `${this.value}`;
     }
 
+    get tileValue() {
+        return this.value;
+    }
+
     set xValue(value) {
         this.matchingCell.isEmptyCell = true;
         this.x = value;

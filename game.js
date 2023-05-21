@@ -7,11 +7,21 @@ let GRID_SIZE = 4;
 let CELL_SIZE = 12.5;
 let CELL_GAP = 1.5;
 
+let SCORE = 0;
+let HIGH_SCORE = localStorage.getItem('HIGH_SCORE'); 
+if (!HIGH_SCORE) {
+    HIGH_SCORE = 0;
+} 
+console.log(HIGH_SCORE);
+
 let EMPTY_CELL;
 let ACTION = false;
 
 let previousX;
 let previousY;
+
+let scoreLabel = document.getElementById("current-score");
+let highScoreLabel = document.getElementById("high-score");
 
 function setupInput() {
     window.addEventListener("keydown", handleInput, { once: true })
@@ -38,7 +48,15 @@ function handleInput(e) {
             return;
     }
 
-    if (ACTION) generateTile();
+    if (ACTION) {
+        generateTile();
+        scoreLabel.innerHTML = `${SCORE}`;
+        if (SCORE > HIGH_SCORE) {
+            HIGH_SCORE = SCORE;
+            highScoreLabel.innerHTML = `${HIGH_SCORE}`;
+            localStorage.setItem('HIGH_SCORE', HIGH_SCORE);
+        }
+    }
 
     if (game.emptyCells.length !== 0) {
         setupInput();
@@ -62,6 +80,7 @@ function moveUp() {
             if (currentTile.value === nextTile?.value) {
                 ACTION = true;
                 currentTile.updateValue();
+                SCORE += currentTile.tileValue;
                 tiles.splice(i + 1, 1);
 
                 const nextTileIndex = TILES.indexOf(nextTile);
@@ -88,6 +107,7 @@ function moveDown() {
             if (currentTile.value === nextTile?.value) {
                 ACTION = true;
                 currentTile.updateValue();
+                SCORE += currentTile.tileValue;
                 tiles.splice(i + 1, 1);
 
                 const nextTileIndex = TILES.indexOf(nextTile);
@@ -114,6 +134,7 @@ function moveLeft() {
             if (currentTile.value === nextTile?.value) {
                 ACTION = true;
                 currentTile.updateValue();
+                SCORE += currentTile.tileValue;
                 tiles.splice(i + 1, 1);
 
                 const nextTileIndex = TILES.indexOf(nextTile);
@@ -140,6 +161,7 @@ function moveRight() {
             if (currentTile.value === nextTile?.value) {
                 ACTION = true;
                 currentTile.updateValue();
+                SCORE += currentTile.tileValue;
                 tiles.splice(i + 1, 1);
 
                 const nextTileIndex = TILES.indexOf(nextTile);

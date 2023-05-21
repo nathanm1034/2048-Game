@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-       <meta charset="UTF-8">
-       <meta http-equiv="X-UA-Compatible" content="ie-edge">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <title>2048</title> 
-       <link rel="stylesheet" type="text/css" href="index.css">
-       <script src="game.js" defer type="module"></script>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>2048</title> 
+        <link rel="stylesheet" type="text/css" href="index.css">
+        <script src="game.js" defer type="module"></script>
     </head>
 
     <body>
@@ -21,7 +21,7 @@
                 </div>
                 <div id="high-score-container">
                     <span id="high-score-label">High Score</span>
-                    <div id="high-score">0</div>
+                    <div id="high-score"></div>
                 </div>
             </div>
         </div>
@@ -32,4 +32,14 @@
             </div>
         </div>
     </body>
+
+    <script>
+        let HIGH_SCORE = localStorage.getItem('HIGH_SCORE');
+        let highScoreElement = document.getElementById('high-score');
+        if (HIGH_SCORE) {
+            highScoreElement.innerHTML = `${HIGH_SCORE}`;
+        } else {
+            highScoreElement.innerHTML = "0";
+        }
+    </script>
 </html>
