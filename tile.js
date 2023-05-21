@@ -1,4 +1,3 @@
-// import Cell from "./cell.js";
 import { CELLS } from "./cell.js";
 
 export let TILES = []

@@ -4,8 +4,8 @@ import Tile from "./tile.js";
 import { TILES } from "./tile.js";
 
 let GRID_SIZE = 4;
-let CELL_SIZE = 20;
-let CELL_GAP = 2;
+let CELL_SIZE = 12.5;
+let CELL_GAP = 1.5;
 
 let EMPTY_CELL;
 let ACTION = false;
@@ -43,7 +43,6 @@ function handleInput(e) {
     if (game.emptyCells.length !== 0) {
         setupInput();
     } else {
-        console.log("cells full")
         if (movesAvailable()) {
             setupInput();
         }
