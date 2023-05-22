@@ -43,8 +43,10 @@ class Tile {
 
     updateValue() {
         this.value *= 2;
-        this.tileElement.innerHTML = `${this.value}`;
-        this.tileColoring();
+        setTimeout(() => {
+            this.tileElement.innerHTML = `${this.value}`;
+            this.tileColoring();
+        }, 100);
     }
 
     get tileValue() {

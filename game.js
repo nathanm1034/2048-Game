@@ -75,22 +75,7 @@ function moveUp() {
             let currentTile = tiles[i];
             let nextTile = tiles[i + 1];
             if (currentTile.value === nextTile?.value) {
-                ACTION = true;
-                tiles.splice(i + 1, 1);
-
-                const nextTileIndex = TILES.indexOf(nextTile);
-                TILES.splice(nextTileIndex, 1);
-
-                currentTile.yValue = i;
-                nextTile.yValue = i;
-
-                SCORE += currentTile.tileValue * 2;
-
-                setTimeout(() => {
-                    nextTile.destructor();
-                    nextTile = null;
-                    currentTile.updateValue();
-                }, 100);
+                mergePieces(tiles, currentTile, nextTile, i, 1);
                 continue;
             }
             previousY = currentTile.y;
@@ -110,22 +95,7 @@ function moveDown() {
             let currentTile = tiles[i];
             let nextTile = tiles[i + 1];
             if (currentTile.value === nextTile?.value) {
-                ACTION = true;
-                tiles.splice(i + 1, 1);
-
-                const nextTileIndex = TILES.indexOf(nextTile);
-                TILES.splice(nextTileIndex, 1);
-
-                currentTile.yValue = GRID_SIZE - i - 1;
-                nextTile.yValue = GRID_SIZE - i - 1;
-
-                SCORE += currentTile.tileValue * 2;
-
-                setTimeout(() => {
-                    nextTile.destructor();
-                    nextTile = null;
-                    currentTile.updateValue();
-                }, 100);
+                mergePieces(tiles, currentTile, nextTile, i, 2);
                 continue;
             }
             previousY = currentTile.y;
@@ -145,22 +115,7 @@ function moveLeft() {
             let currentTile = tiles[i];
             let nextTile = tiles[i + 1];
             if (currentTile.value === nextTile?.value) {
-                ACTION = true;
-                tiles.splice(i + 1, 1);
-
-                const nextTileIndex = TILES.indexOf(nextTile);
-                TILES.splice(nextTileIndex, 1);
-
-                currentTile.xValue = i;
-                nextTile.xValue = i;
-
-                SCORE += currentTile.tileValue * 2;
-
-                setTimeout(() => {
-                    nextTile.destructor();
-                    nextTile = null;
-                    currentTile.updateValue();
-                }, 100);
+                mergePieces(tiles, currentTile, nextTile, i, 3);
                 continue;
             }
             previousX = currentTile.x
@@ -180,22 +135,7 @@ function moveRight() {
             let currentTile = tiles[i];
             let nextTile = tiles[i + 1];
             if (currentTile.value === nextTile?.value) {
-                ACTION = true;
-                tiles.splice(i + 1, 1);
-
-                const nextTileIndex = TILES.indexOf(nextTile);
-                TILES.splice(nextTileIndex, 1);
-
-                currentTile.xValue = GRID_SIZE - i - 1;
-                nextTile.xValue = GRID_SIZE - i - 1;
-
-                SCORE += currentTile.tileValue * 2;
-
-                setTimeout(() => {
-                    nextTile.destructor();
-                    nextTile = null;
-                    currentTile.updateValue();
-                }, 100);
+                mergePieces(tiles, currentTile, nextTile, i, 4);
                 continue;
             }
             previousX = currentTile.x
@@ -205,6 +145,34 @@ function moveRight() {
             }
         }
     });
+}
+
+function mergePieces(tiles, currentTile, nextTile, i, state) {
+    ACTION = true;
+    tiles.splice(i + 1, 1);
+    const nextTileIndex = TILES.indexOf(nextTile);
+    TILES.splice(nextTileIndex, 1);
+
+    if (state === 1) {
+        currentTile.yValue = i;
+        nextTile.yValue = i;
+    } else if (state === 2) {
+        currentTile.yValue = GRID_SIZE - i - 1;
+        nextTile.yValue = GRID_SIZE - i - 1;
+    } else if (state === 3) {
+        currentTile.xValue = i;
+        nextTile.xValue = i;
+    } else if (state === 4) {
+        currentTile.xValue = GRID_SIZE - i - 1;
+        nextTile.xValue = GRID_SIZE - i - 1;
+    }
+
+    currentTile.updateValue();
+    SCORE += currentTile.tileValue;
+    setTimeout(() => {
+        nextTile.destructor();
+        nextTile = null;
+    }, 100);
 }
 
 function generateTile() {
@@ -218,19 +186,14 @@ function movesAvailable() {
         const tile = TILES[i];
         if (tile.x > 0 && TILES.some(t => t.x === tile.x - 1 && t.y === tile.y && t.value === tile.value)) {
             return true;
-        }
-        if (tile.x < GRID_SIZE - 1 && TILES.some(t => t.x === tile.x + 1 && t.y === tile.y && t.value === tile.value)) {
+        } else if (tile.x < GRID_SIZE - 1 && TILES.some(t => t.x === tile.x + 1 && t.y === tile.y && t.value === tile.value)) {
             return true;
-        }
-
-        if (tile.y > 0 && TILES.some(t => t.x === tile.x && t.y === tile.y - 1 && t.value === tile.value)) {
+        } else if (tile.y > 0 && TILES.some(t => t.x === tile.x && t.y === tile.y - 1 && t.value === tile.value)) {
             return true;
-        }
-        if (tile.y < GRID_SIZE - 1 && TILES.some(t => t.x === tile.x && t.y === tile.y + 1 && t.value === tile.value)) {
+        } else if (tile.y < GRID_SIZE - 1 && TILES.some(t => t.x === tile.x && t.y === tile.y + 1 && t.value === tile.value)) {
             return true;
         }
     }
-
     return false;
 }
 
