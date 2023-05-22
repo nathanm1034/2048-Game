@@ -21,7 +21,19 @@ class Tile {
         this.tileElement.style.setProperty("--y", this.y);
         this.tileElement.classList.add("tile");
         tilesElement.append(this.tileElement);
+        this.tileColoring();
         this.findMatchingCell();
+    }
+
+    tileColoring() {
+        const lightness = 100 - (Math.log2(this.value) * 8);
+        this.tileElement.style.setProperty("--lightness", `${lightness}%`);
+
+        if (lightness < 50) {
+            this.tileElement.style.color = "#FFFFFF"; 
+        } else {
+            this.tileElement.style.color = "#000000"; 
+        }
     }
 
     findMatchingCell() {
@@ -32,6 +44,7 @@ class Tile {
     updateValue() {
         this.value *= 2;
         this.tileElement.innerHTML = `${this.value}`;
+        this.tileColoring();
     }
 
     get tileValue() {

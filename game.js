@@ -9,10 +9,7 @@ let CELL_GAP = 1.5;
 
 let SCORE = 0;
 let HIGH_SCORE = localStorage.getItem('HIGH_SCORE'); 
-if (!HIGH_SCORE) {
-    HIGH_SCORE = 0;
-} 
-console.log(HIGH_SCORE);
+if (!HIGH_SCORE) HIGH_SCORE = 0;
 
 let EMPTY_CELL;
 let ACTION = false;
@@ -79,14 +76,22 @@ function moveUp() {
             let nextTile = tiles[i + 1];
             if (currentTile.value === nextTile?.value) {
                 ACTION = true;
-                currentTile.updateValue();
-                SCORE += currentTile.tileValue;
                 tiles.splice(i + 1, 1);
 
                 const nextTileIndex = TILES.indexOf(nextTile);
                 TILES.splice(nextTileIndex, 1);
-                nextTile.destructor();
-                nextTile = null;
+
+                currentTile.yValue = i;
+                nextTile.yValue = i;
+
+                SCORE += currentTile.tileValue * 2;
+
+                setTimeout(() => {
+                    nextTile.destructor();
+                    nextTile = null;
+                    currentTile.updateValue();
+                }, 100);
+                continue;
             }
             previousY = currentTile.y;
             currentTile.yValue = i;
@@ -106,14 +111,22 @@ function moveDown() {
             let nextTile = tiles[i + 1];
             if (currentTile.value === nextTile?.value) {
                 ACTION = true;
-                currentTile.updateValue();
-                SCORE += currentTile.tileValue;
                 tiles.splice(i + 1, 1);
 
                 const nextTileIndex = TILES.indexOf(nextTile);
                 TILES.splice(nextTileIndex, 1);
-                nextTile.destructor();
-                nextTile = null;
+
+                currentTile.yValue = GRID_SIZE - i - 1;
+                nextTile.yValue = GRID_SIZE - i - 1;
+
+                SCORE += currentTile.tileValue * 2;
+
+                setTimeout(() => {
+                    nextTile.destructor();
+                    nextTile = null;
+                    currentTile.updateValue();
+                }, 100);
+                continue;
             }
             previousY = currentTile.y;
             currentTile.yValue = GRID_SIZE - i - 1;
@@ -133,14 +146,22 @@ function moveLeft() {
             let nextTile = tiles[i + 1];
             if (currentTile.value === nextTile?.value) {
                 ACTION = true;
-                currentTile.updateValue();
-                SCORE += currentTile.tileValue;
                 tiles.splice(i + 1, 1);
 
                 const nextTileIndex = TILES.indexOf(nextTile);
                 TILES.splice(nextTileIndex, 1);
-                nextTile.destructor();
-                nextTile = null;
+
+                currentTile.xValue = i;
+                nextTile.xValue = i;
+
+                SCORE += currentTile.tileValue * 2;
+
+                setTimeout(() => {
+                    nextTile.destructor();
+                    nextTile = null;
+                    currentTile.updateValue();
+                }, 100);
+                continue;
             }
             previousX = currentTile.x
             currentTile.xValue = i;
@@ -160,14 +181,22 @@ function moveRight() {
             let nextTile = tiles[i + 1];
             if (currentTile.value === nextTile?.value) {
                 ACTION = true;
-                currentTile.updateValue();
-                SCORE += currentTile.tileValue;
                 tiles.splice(i + 1, 1);
 
                 const nextTileIndex = TILES.indexOf(nextTile);
                 TILES.splice(nextTileIndex, 1);
-                nextTile.destructor();
-                nextTile = null;
+
+                currentTile.xValue = GRID_SIZE - i - 1;
+                nextTile.xValue = GRID_SIZE - i - 1;
+
+                SCORE += currentTile.tileValue * 2;
+
+                setTimeout(() => {
+                    nextTile.destructor();
+                    nextTile = null;
+                    currentTile.updateValue();
+                }, 100);
+                continue;
             }
             previousX = currentTile.x
             currentTile.xValue = GRID_SIZE - i - 1;

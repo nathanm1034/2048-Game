@@ -18,7 +18,7 @@ body {
     margin-bottom: 1.5vh;
     flex-grow: 1;
     text-align: center;
-    color: #444444
+    color: #444444;
 }
 
 #stats {
@@ -88,8 +88,10 @@ body {
     height: var(--cell-size);
     border-radius: 1.5vmin;
     z-index: 2;
+    background-color: hsl(200, 100%, var(--lightness));
 
     animation: tile-load 0.25s ease-out;
+    transition: left 0.1s ease-out, top 0.1s ease-out;
 }
 
 @keyframes tile-load {
