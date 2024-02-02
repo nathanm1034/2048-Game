@@ -40,6 +40,9 @@ function handleInput(e) {
         case "ArrowRight":
             moveRight();
             break;
+        case "t": //test key
+            showGameOverPopup();
+            return;
         default:
             setupInput();
             return;
@@ -62,7 +65,7 @@ function handleInput(e) {
             setupInput();
         }
         else {
-            console.log("Game Over");
+            showGameOverPopup()
         }
     }
 }
@@ -195,6 +198,12 @@ function movesAvailable() {
         }
     }
     return false;
+}
+
+function showGameOverPopup() {
+    const popup = document.getElementById('game-over-popup');
+    popup.classList.add('show');
+    console.log("Game Over");
 }
 
 const game = new Grid(GRID_SIZE, CELL_SIZE, CELL_GAP);
