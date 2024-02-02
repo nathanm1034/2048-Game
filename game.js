@@ -2,6 +2,7 @@ import Grid from "./grid.js";
 import Tile from "./tile.js";
 
 import { TILES } from "./tile.js";
+import { CELLS } from "./cell.js";
 
 let GRID_SIZE = 4;
 let CELL_SIZE = 12.5;
@@ -14,11 +15,15 @@ if (!HIGH_SCORE) HIGH_SCORE = 0;
 let EMPTY_CELL;
 let ACTION = false;
 
+let game;
+
 let previousX;
 let previousY;
 
 let scoreLabel = document.getElementById("current-score");
 let highScoreLabel = document.getElementById("high-score");
+
+document.getElementById('play-again-button').addEventListener('click', resetGame);
 
 function setupInput() {
     window.addEventListener("keydown", handleInput, { once: true })
@@ -174,7 +179,6 @@ function mergePieces(tiles, currentTile, nextTile, i, state) {
     SCORE += currentTile.tileValue;
     setTimeout(() => {
         nextTile.destructor();
-        nextTile = null;
     }, 100);
 }
 
@@ -206,13 +210,38 @@ function showGameOverPopup() {
     console.log("Game Over");
 }
 
-const game = new Grid(GRID_SIZE, CELL_SIZE, CELL_GAP);
+function resetGame() {
+    SCORE = 0;
+    scoreLabel.innerHTML = `${SCORE}`
 
-EMPTY_CELL = game.randomEmptyCell();
-const firstTile = new Tile(EMPTY_CELL.x, EMPTY_CELL.y);
-TILES.push(firstTile);
-EMPTY_CELL = game.randomEmptyCell();
-const secondTile = new Tile(EMPTY_CELL.x, EMPTY_CELL.y);
-TILES.push(secondTile);
+    clearBoard();
+    initializeGame();
 
-setupInput();
+    const popup = document.getElementById('game-over-popup');
+    popup.classList.remove('show');
+}
+
+function clearBoard() {
+    for (let i = 0; i < TILES.length; i++) {
+        const tile = TILES[i];
+        tile.destructor();
+    }
+    TILES.length = 0;
+}
+
+function initializeGame() {
+    if (!game) {
+        game = new Grid(GRID_SIZE, CELL_SIZE, CELL_GAP);
+    }
+
+    EMPTY_CELL = game.randomEmptyCell();
+    const firstTile = new Tile(EMPTY_CELL.x, EMPTY_CELL.y);
+    TILES.push(firstTile);
+    EMPTY_CELL = game.randomEmptyCell();
+    const secondTile = new Tile(EMPTY_CELL.x, EMPTY_CELL.y);
+    TILES.push(secondTile);
+
+    setupInput();
+}
+
+initializeGame();

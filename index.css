@@ -89,9 +89,14 @@ body {
     border-radius: 1.5vmin;
     z-index: 2;
     background-color: hsl(200, 100%, var(--lightness));
-
     animation: tile-load 0.25s ease-out;
     transition: left 0.1s ease-out, top 0.1s ease-out;
+}
+
+@keyframes tile-load {
+    0% {
+        transform: scale(0);
+    }
 }
 
 #game-over-popup {
@@ -103,11 +108,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    z-index: 10; /* Ensure it's above other content */
-    opacity: 0; /* Start hidden */
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 10; 
+    opacity: 0; 
     visibility: hidden; 
-    transition: opacity 1.25s ease-in-out 0.5s; /* Smooth transition for opacity */
+    transition: opacity 1.25s ease-in-out 0.5s; 
 }
 
 #game-over-popup.show {
@@ -117,6 +122,7 @@ body {
 
 #game-over-content {
     background-color: #ffffff;
+    font-weight: bold;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -125,11 +131,17 @@ body {
 
 #game-over-content p {
     font-size: 2.5rem;
-    color: #333;
+    color: #444444;
 }
 
-@keyframes tile-load {
-    0% {
-        transform: scale(0);
-    }
+#play-again-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #444444; 
+    color: rgba(238,228,218,.65);
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
 }
